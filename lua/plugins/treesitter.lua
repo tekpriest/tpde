@@ -77,9 +77,9 @@ return {
   {
     'RRethy/vim-illuminate',
     init = function ()
-      vim.cmd[[hi link IlluminateWordText Visual ]]
-      vim.cmd[[hi link IlluminateWordRead Visual ]]
-      vim.cmd[[hi link IlluminateWordWrite Visual ]]
+      vim.cmd[[hi link IlluminatedWordText Visual ]]
+      vim.cmd[[hi link IlluminatedWordRead Visual ]]
+      vim.cmd[[hi link IlluminatedWordWrite Visual ]]
     end
   }
 }
