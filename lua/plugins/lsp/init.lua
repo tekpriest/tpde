@@ -161,4 +161,7 @@ return {
       end
     end,
   },
+  {
+    'j-hui/fidget.nvim',
+  }
 }

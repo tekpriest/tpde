@@ -142,10 +142,9 @@ return {
           { name = 'luasnip' },
           { name = 'path' },
           { name = 'nvim_lsp_signature_help' },
+          { name = 'buffer',                 keyword_length = 2 },
           { name = 'nvim_lua' },
-          { name = 'buffer' },
           { name = 'nvim_lsp' },
-          -- { name = 'buffer-lines' },
           { name = 'cmp-tw2css' },
         },
       }
