@@ -1,20 +1,14 @@
 -- if true then return {} end
 return {
   {
-
+    'windwp/nvim-ts-autotag',
+    ft = { 'html', 'javascriptreact', 'typescriptreact' },
+    config = function()
+      require('nvim-ts-autotag').setup()
+    end,
+  },
+  {
     'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      {
-        'nvim-treesitter/playground',
-        cmd = 'TSPlaygroundToggle',
-      },
-      {
-        'windwp/nvim-ts-autotag',
-        config = function()
-          require('nvim-ts-autotag').setup()
-        end,
-      },
-    },
     build = ':TSUpdate',
     event = { 'BufReadPost', 'BufNewFile' },
     opts = {
@@ -40,19 +34,19 @@ return {
         use_languagetree = true,
       },
       indent = { enable = true, disable = { 'dart' } },
-      -- context_commentstring = { enable = true, enable_autocmd = false },
+      autotag = { enabled = true },
+      autopairs = { enabled = true },
       incremental_selection = {
         enable = true,
         keymaps = {
           -- mappings for incremental selection (visual mappings)
-          init_selection = '<CR>',   -- maps in normal mode to init the node/scope selection
-          node_incremental = 'grn',  -- increment to the upper named parent
+          init_selection = '<CR>', -- maps in normal mode to init the node/scope selection
+          node_incremental = 'grn', -- increment to the upper named parent
           scope_incremental = 'grc', -- increment to the upper scope (as defined in locals.scm)
-          node_decremental = 'grm',  -- decrement to the previous node
+          node_decremental = 'grm', -- decrement to the previous node
         },
       },
       matchup = { enable = true },
-      playground = { enable = true },
       query_linter = { enable = true },
     },
     config = function(_, opts)
@@ -68,18 +62,15 @@ return {
         end, opts.ensure_installed)
       end
       require('nvim-treesitter.configs').setup(opts)
-      require('ts_context_commentstring').setup()
-    end,
-    init = function()
-      vim.g.skip_ts_context_commentstring_mdule = true
     end,
   },
-  {
-    'RRethy/vim-illuminate',
-    init = function ()
-      vim.cmd[[hi link IlluminatedWordText Visual ]]
-      vim.cmd[[hi link IlluminatedWordRead Visual ]]
-      vim.cmd[[hi link IlluminatedWordWrite Visual ]]
-    end
-  }
+  -- {
+  --   'RRethy/vim-illuminate',
+  --   event = 'VeryLazy',
+  --   init = function()
+  --     vim.cmd [[hi link IlluminatedWordText Visual ]]
+  --     vim.cmd [[hi link IlluminatedWordRead Visual ]]
+  --     vim.cmd [[hi link IlluminatedWordWrite Visual ]]
+  --   end,
+  -- },
 }

@@ -3,25 +3,19 @@ local utils = require 'core.utils'
 local M = {}
 
 local config = {
+  virtual_text = false,
+  underline = false,
+  update_in_insert = false,
+  severity_sort = true,
   float = {
     focusable = false,
     style = 'minimal',
     border = 'rounded',
+    source = 'always',
+    header = '',
+    prefix = '',
   },
-  diagnostic = {
-    virtual_text = false,
-    underline = false,
-    update_in_insert = false,
-    severity_sort = true,
-    float = {
-      focusable = false,
-      style = 'minimal',
-      border = 'rounded',
-      source = 'always',
-      header = '',
-      prefix = '',
-    },
-  },
+  signs = true,
 }
 
 local diagnostic_goto = function(next, severity)
@@ -32,13 +26,35 @@ local diagnostic_goto = function(next, severity)
   end
 end
 
+--- Helper function to check if any active LSP clients given a filter provide a specific capability
+---@param capability string The server capability to check for (example: "documentFormattingProvider")
+---@param filter vim.lsp.get_active_clients.filter|nil (table|nil) A table with
+---              key-value pairs used to filter the returned clients.
+---              The available keys are:
+---               - id (number): Only return clients with the given id
+---               - bufnr (number): Only return clients attached to this buffer
+---               - name (string): Only return clients with the given name
+---@return boolean # Whether or not any of the clients provide the capability
+M.has_capability = function(capability, filter)
+  for _, client in ipairs(vim.lsp.get_active_clients(filter)) do
+    if client.supports_method(capability) then
+      return true
+    end
+  end
+  return false
+end
+
 local keymaps = function(client, buffer)
   local telescope_builtin = require 'telescope.builtin'
 
-  map('n', 'gd', vim.lsp.buf.definition, { desc = '[g]oto [d]efinition', buffer = buffer })
+  if client.supports_method 'textDocument/definition' then
+    map('n', 'gd', vim.lsp.buf.definition, { desc = '[g]oto [d]efinition', buffer = buffer })
+  end
   -- stylua: ignore
   map('n', 'gr', function() require('trouble').open 'lsp_references' end, { desc = '[g]oto [r]eferences',buffer = buffer })
-  map('n', 'K', vim.lsp.buf.hover, { desc = 'hover' })
+  if client.supports_method 'textDocument/hover' then
+    map('n', 'K', vim.lsp.buf.hover, { desc = 'hover' })
+  end
   map('n', 'gi', vim.lsp.buf.implementation, { desc = '[g]oto [i]mplementation', buffer = buffer })
   -- stylua: ignore
   map('n', 'gl', vim.diagnostic.open_float, { desc = 'show [l]ine [d]iagnostics' })
@@ -49,34 +65,66 @@ local keymaps = function(client, buffer)
   map('n', '[e', diagnostic_goto(false, 'ERROR'), { desc = 'Prev Error' })
   map('n', ']w', diagnostic_goto(true, 'WARNING'), { desc = 'Next Warning' })
   map('n', '[w', diagnostic_goto(false, 'WARNING'), { desc = 'Prev Warning' })
-  -- stylua: ignore
-  map('n', "<leader>ca", vim.lsp.buf.code_action, { desc = "[c]ode [a]ction"})
+  if client.supports_method 'textDocument/codeAction' then
+    map('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[c]ode [a]ction' })
+  end
   map('n', '<leader>cs', telescope_builtin.lsp_document_symbols, { desc = '[c]ode [s]ymbols' })
   map('n', '<leader>cd', telescope_builtin.diagnostics, { desc = '[c]ode [d]ocument symbols' })
   -- stylua: ignore
   map('n', '<leader>cw', telescope_builtin.lsp_dynamic_workspace_symbols, {desc='[c]ode [w]orkspace symbols',  buffer = buffer})
-  map('n', '<leader>cr', vim.lsp.buf.rename, { desc = '[c]ode [r]ename', buffer = buffer })
-  map('n', '<space>cf', function() vim.lsp.buf.format { async = true } end, { desc = 'format buffer', buffer = buffer })
+  if client.supports_method 'textDocument/rename' then
+    map('n', '<leader>cr', vim.lsp.buf.rename, { desc = '[c]ode [r]ename', buffer = buffer })
+  end
+  -- map('n', '<space>cf', function() vim.lsp.buf.format { async = true } end, { desc = 'format buffer', buffer = buffer })
+  if client.supports_method 'textDocument/codeLens' then
+    utils.add_buffer_autocmd('lsp_codelens', buffer, {
+      events = { 'InsertLeave', 'BufEnter' },
+      desc = 'Refresh coedlens',
+      callback = function()
+        if not M.has_capability('textDocument/codeLens', { bufnr = buffer }) then
+          utils.del_buffer_autocmd('lsp_codelens', buffer)
+          return
+        end
+        if vim.g.codelens_enabled then
+          vim.lsp.codelens.refresh()
+        end
+      end,
+    })
+    if vim.g.codelens_enabled then
+      vim.lsp.codelens.refresh()
+    end
+    map('n', '<leader>cl', function()
+      vim.lsp.codelens.refresh()
+    end, { desc = 'lsp refresh codelens' })
+    map('n', '<leader>la', function()
+      vim.lsp.codelens.run()
+    end, { desc = 'lsp codelens run' })
+  end
 end
 
 local capabilities = function()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities.textDocument.completion.completionItem.snippetSupport = true
-  capabilities.textDocument.foldingRange = {
-    dynamicRegistration = false,
-    lineFoldingOnly = true,
-  }
   return require('cmp_nvim_lsp').default_capabilities(capabilities)
 end
 
 M.setup = function(_, opts)
-  vim.diagnostic.config(config.diagnostic)
+  local client = {}
+  vim.diagnostic.config(config)
   utils.on_attach(function(client, bufnr)
     keymaps(client, bufnr)
+    client = client
   end)
 
   local servers = opts.servers
   local capabilities = capabilities()
+
+  if client.name ~= 'yamlls' then
+    capabilities.textDocument.foldingRange = {
+      dynamicRegistration = false,
+      lineFoldingOnly = true,
+    }
+  end
 
   local function setup(server)
     local server_opts =

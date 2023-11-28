@@ -1,41 +1,7 @@
 return {
   {
-    'L3MON4D3/LuaSnip',
-    dependencies = {
-      {
-        'rafamadriz/friendly-snippets',
-        config = function()
-          require('luasnip.loaders.from_vscode').lazy_load()
-        end,
-      },
-    },
-    build = 'make install_jsregexp',
-    opts = {
-      history = true,
-      delete_check_events = 'TextChanged',
-    },
-    -- stylua: ignore
-    keys = {
-      {
-        "<C-j>",
-        function()
-          return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<C-j>"
-        end,
-        expr = true,
-        remap = true,
-        silent = true,
-        mode = "i",
-      },
-      { "<C-j>", function() require("luasnip").jump(1) end,  mode = "s" },
-      { "<C-k>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
-    },
-    config = function(_, opts)
-      require('luasnip').setup(opts)
-    end,
-  },
-  {
     'hrsh7th/nvim-cmp',
-    event = { 'InsertEnter', 'CmdlineEnter' },
+    event = { 'InsertEnter' },
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'saadparwaiz1/cmp_luasnip',
@@ -45,6 +11,25 @@ return {
       'hrsh7th/cmp-nvim-lua',
       'amarakon/nvim-cmp-buffer-lines',
       'jcha0713/cmp-tw2css',
+      {
+        'L3MON4D3/LuaSnip',
+        dependencies = {
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
+        },
+        build = 'make install_jsregexp',
+        opts = {
+          history = true,
+          delete_check_events = 'TextChanged',
+        },
+        config = function(_, opts)
+          require('luasnip').setup(opts)
+        end,
+      },
     },
     init = function()
       vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'preview' }
@@ -138,14 +123,18 @@ return {
           --   border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
           -- },
         },
-        sources = {
-          { name = 'luasnip' },
-          { name = 'path' },
-          { name = 'nvim_lsp_signature_help' },
-          { name = 'buffer',                 keyword_length = 2 },
-          { name = 'nvim_lua' },
-          { name = 'nvim_lsp' },
-          { name = 'cmp-tw2css' },
+        sources = cmp.config.sources {
+          {
+            { name = 'luasnip' },
+            { name = 'path' },
+            { name = 'nvim_lsp_signature_help' },
+            { name = 'nvim_lua' },
+            { name = 'nvim_lsp' },
+            { name = 'cmp-tw2css' },
+          },
+          {
+            { name = 'buffer' },
+          },
         },
       }
     end,

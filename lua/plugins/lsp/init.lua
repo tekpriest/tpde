@@ -2,6 +2,7 @@ return {
   {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' },
+    cmd = 'Mason',
     dependencies = {
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
@@ -21,7 +22,7 @@ return {
   {
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
-    cmd = { 'ConformInfo' },
+    cmd = 'ConformInfo',
     keys = {
       {
         -- Customize or remove this keymap to your liking
@@ -41,6 +42,11 @@ return {
         javascriptreact = { 'prettierd' },
         elixir = { 'mix' },
         dart = { 'dart_format' },
+        yaml = { 'prettierd' },
+        json = { 'prettierd' },
+        lua = { 'stylua' },
+        go = { 'gofumpt', 'goimports-reviser' },
+        sh = { 'shfmt' },
       },
       format_on_save = false,
     },
@@ -89,7 +95,7 @@ return {
     event = 'LspAttach',
     init = function()
       vim.o.foldcolumn = '0' -- '0' is not bad
-      vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
+      vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
     end,
@@ -163,5 +169,32 @@ return {
   },
   {
     'j-hui/fidget.nvim',
-  }
+    event = 'LspAttach',
+    opts = {},
+    config = true,
+  },
+  {
+    'mfussenegger/nvim-lint',
+    event = 'LspAttach',
+    opts = {
+      linters_by_ft = {
+        elixir = { 'credo' },
+        javascript = { 'eslint_d' },
+        typescript = { 'eslint_d' },
+        yaml = { 'yamllint' },
+        zsh = { 'zsh' },
+        proto = { 'buf_lint' },
+        env = { 'dotenv_linter' },
+        go = { 'golangcilint' },
+        docker = {'hadolint'}
+      },
+    },
+    config = function(_, opts)
+      vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+        callback = function()
+          require('lint').try_lint()
+        end,
+      })
+    end,
+  },
 }

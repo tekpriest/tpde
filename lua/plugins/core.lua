@@ -87,6 +87,7 @@ return {
   },
   {
     'nvim-tree/nvim-web-devicons',
+    event = 'VeryLazy',
     dependencies = { 'DaikyXendo/nvim-material-icon' },
     config = function()
       require('nvim-web-devicons').setup {
@@ -96,6 +97,7 @@ return {
   },
   {
     'stevearc/dressing.nvim',
+    event = 'VeryLazy',
     opts = {},
   },
   -- {
@@ -205,15 +207,17 @@ return {
   },
   {
     'norcalli/nvim-colorizer.lua',
+    -- event = 'VeryLazy',
+    ft = { 'css', 'html', 'scss', 'typescriptreact', 'javascriptreact' },
     config = function()
-      require('colorizer').setup({ 'css', 'scss', 'html', 'javascript' }, {
-        RGB = true,      -- #RGB hex codes
-        RRGGBB = true,   -- #RRGGBB hex codes
+      require('colorizer').setup({ 'css', 'scss', 'html', 'javascriptreact', 'typescriptreact' }, {
+        RGB = true, -- #RGB hex codes
+        RRGGBB = true, -- #RRGGBB hex codes
         RRGGBBAA = true, -- #RRGGBBAA hex codes
-        rgb_fn = true,   -- CSS rgb() and rgba() functions
-        hsl_fn = true,   -- CSS hsl() and hsla() functions
-        css = true,      -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-        css_fn = true,   -- Enable all CSS *functions*: rgb_fn, hsl_fn
+        rgb_fn = true, -- CSS rgb() and rgba() functions
+        hsl_fn = false, -- CSS hsl() and hsla() functions
+        css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+        css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
       })
     end,
   },

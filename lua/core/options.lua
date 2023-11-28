@@ -20,7 +20,7 @@ opt.clipboard = { 'unnamedplus', 'unnamed' }
 opt.hlsearch = false
 opt.incsearch = true
 opt.scrolloff = 8
--- opt.isfname:append '@-@'
+opt.isfname:append '@-@'
 opt.updatetime = 65
 opt.splitright = true
 opt.splitbelow = true
@@ -110,7 +110,7 @@ g.markdown_fenced_languages = {
 }
 opt.pumblend = 10
 opt.winblend = 10
-opt.cmdheight = 1
+opt.cmdheight = 0
 opt.smartcase = true
 opt.ignorecase = true
 opt.autoindent = true
@@ -120,7 +120,7 @@ opt.showmatch = false
 opt.smarttab = true
 opt.whichwrap:append 'h,l,<,>,[,]'
 opt.pumheight = 10
-opt.laststatus = 3
+opt.laststatus = 2
 opt.showmode = false
 opt.shada = [['20,<50,s10,h,/100]]
 opt.updatecount = 0
@@ -156,7 +156,7 @@ vim.cmd [[filetype plugin indent on]]
 -- end
 
 -- Skip some remote provider loading
-for _, provider in pairs { 'node', 'perl', 'python3', 'rubby' } do
+for _, provider in pairs { 'node', 'perl', 'python3', 'ruby' } do
   g['loaded_' .. provider .. '_provider'] = 0
 end
 
@@ -178,3 +178,4 @@ local disabled_built_ins = {
 for i = 1, 10 do
   g[disabled_built_ins[i]] = 1
 end
+vim.g.codelens_enabled = true

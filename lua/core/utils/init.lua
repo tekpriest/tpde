@@ -7,7 +7,7 @@ end
 M.has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0
-      and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match '%s' == nil
+    and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match '%s' == nil
 end
 
 M.opts = function(name)
@@ -70,5 +70,30 @@ M.cmp_kinds = {
   Operator = '  ',
   TypeParameter = '  ',
 }
+
+M.add_buffer_autocmd = function(augroup, bufnr, autocmds)
+  if not vim.tbl_islist(autocmds) then
+    autocmds = { autocmds }
+  end
+  local cmds_found, cmds = pcall(vim.api.nvim_get_autocmds, { group = augroup, buffer = bufnr })
+  if not cmds_found or vim.tbl_isempty(cmds) then
+    vim.api.nvim_create_augroup(augroup, { clear = true })
+    for _, autocmd in ipairs(autocmds) do
+      local events = autocmd.events
+      autocmd.events = nil
+      autocmd.group = augroup
+      autocmd.buffer = bufnr
+      vim.api.nvim_create_autocmd(events, autocmd)
+    end
+  end
+end
+M.del_buffer_autocmd = function(augroup, bufnr)
+  local cmds_found, cmds = pcall(vim.api.nvim_get_autocmds, { group = augroup, buffer = bufnr })
+  if cmds_found then
+    vim.tbl_map(function(cmd)
+      vim.api.nvim_del_autocmd(cmd.id)
+    end, cmds)
+  end
+end
 
 return M

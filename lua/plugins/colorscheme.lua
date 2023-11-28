@@ -1,6 +1,7 @@
 return {
   {
     'rebelot/kanagawa.nvim',
+    event = 'User ColorSchemeLoad',
     init = function()
       vim.cmd.colorscheme 'kanagawa'
     end,
