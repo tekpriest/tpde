@@ -34,11 +34,14 @@ vim.defer_fn(function()
       ['<A-j>'] = ':m .+1<cr>==',
       ['<A-k>'] = ':m .-2<cr>==',
       ['<leader>n'] = [[<cmd>vsplit enew<cr>]],
+      ['j'] = [[mzJ`z`]],
     },
     v = {
       -- Better indent
       ['>'] = '>gv',
       ['<'] = '<gv',
+      ['<A-j>'] = [[:m '>+1<CR>gv=gv']],
+      ['<A-k>'] = [[:m '<-2<CR>gv=gv']],
     },
     t = {
       ['jk'] = '<C-\\><C-n>',
