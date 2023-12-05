@@ -120,7 +120,7 @@ opt.showmatch = false
 opt.smarttab = true
 opt.whichwrap:append 'h,l,<,>,[,]'
 opt.pumheight = 10
-opt.laststatus = 2
+opt.laststatus = 3
 opt.showmode = false
 opt.shada = [['20,<50,s10,h,/100]]
 opt.updatecount = 0

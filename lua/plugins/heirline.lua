@@ -1,10 +1,13 @@
 return {
   {
     'rebelot/heirline.nvim',
+    init = function()
+      vim.cmd [[au FileType * if index(['wipe', 'delete'], &bufhidden) >= 0 | set nobuflisted | endif]]
+      vim.o.showmode = false
+    end,
     config = function()
       local conditions = require 'heirline.conditions'
       local utils = require 'heirline.utils'
-      -- local colors = require 'kanagawa.colors'.setup()
 
       local FileBlock = {
         init = function(self)
@@ -55,7 +58,7 @@ return {
           condition = function()
             return vim.bo.modified
           end,
-          provider = ' ',
+          provider = '[+]',
           hl = { fg = 'gray' },
         },
         {
@@ -97,22 +100,35 @@ return {
           end,
         },
         LastModified = {
-          -- did you know? Vim is full of functions!
           provider = function()
             local ftime = vim.fn.getftime(vim.api.nvim_buf_get_name(0))
             return (ftime > 0) and os.date('%c', ftime)
           end,
         },
         Directory = {
+          condition = function(self)
+            if vim.bo.buftype == '' then
+              return self.pwd
+            end
+          end,
           init = function(self)
-            self.icon = (vim.fn.haslocaldir(0) == 1 and 'l' or 'g') .. ' ' .. ' '
+            self.icon = ' ' .. ' '
             local cwd = vim.fn.getcwd(0)
             self.cwd = vim.fn.fnamemodify(cwd, ':~')
           end,
           hl = { fg = '#54546D' },
 
-          flexible = 1,
-
+          flexible = 25,
+          -- {
+          --   provider = function(self)
+          --     return self.pwd
+          --   end,
+          -- },
+          -- {
+          --   provider = function(self)
+          --     return fn.pathshorten(self.pwd)
+          --   end,
+          -- },
           {
             -- evaluates to the full-lenth path
             provider = function(self)
@@ -141,30 +157,12 @@ return {
           update = { 'LspAttach', 'LspDetach' },
           provider = function()
             local names = {}
-            for i, server in pairs(vim.lsp.get_active_clients { bufnr = 0 }) do
+            for _, server in pairs(vim.lsp.get_active_clients { bufnr = 0 }) do
               table.insert(names, server.name)
             end
-            return ' [' .. table.concat(names, ' ') .. ']'
+            return '[' .. table.concat(names, ' ') .. ']'
           end,
           hl = { fg = '#938056' },
-        },
-      }
-
-      local Extras = {
-        SearchCount = {
-          condition = function()
-            return vim.v.hlsearch ~= 0 and vim.o.cmdheight == 0
-          end,
-          init = function(self)
-            local ok, search = pcall(vim.fn.searchcount)
-            if ok and search.total then
-              self.search = search
-            end
-          end,
-          provider = function(self)
-            local search = self.search
-            return string.format('[%d/%d]', search.current, math.min(search.total, search.maxcount))
-          end,
         },
       }
 
@@ -192,9 +190,16 @@ return {
 
       require('heirline').setup {
         statusline = StatusLine,
-        -- opts = {
-        --   colors = colors
-        -- }
+        opts = {
+          -- if the callback returns true, the winbar will be disabled for that window
+          -- the args parameter corresponds to the table argument passed to autocommand callbacks. :h nvim_lua_create_autocmd()
+          disable_winbar_cb = function(args)
+            return conditions.buffer_matches({
+              buftype = { 'nofile', 'prompt', 'help', 'quickfix' },
+              filetype = { '^git.*', 'fugitive', 'Trouble', 'dashboard' },
+            }, args.buf)
+          end,
+        },
       }
     end,
   },

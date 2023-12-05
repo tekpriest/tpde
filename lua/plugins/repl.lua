@@ -2,7 +2,7 @@ return {
   {
     'metakirby5/codi.vim',
     init = function()
-      vim.g["codi#virtual_text"] = "0"
+      -- vim.g["codi#virtual_text"] = "0"
     end,
     keys = {
       {

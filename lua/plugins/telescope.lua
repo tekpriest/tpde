@@ -24,6 +24,7 @@ return {
     local telescope = require 'telescope'
     telescope.setup(opts)
     telescope.load_extension 'fzf'
+    telescope.load_extension 'harpoon'
   end,
   keys = {
     { '<leader><space>', '<cmd>Telescope find_files<cr>', desc = 'find files' },

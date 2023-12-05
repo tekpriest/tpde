@@ -53,7 +53,7 @@ return {
           },
           init_options = { usePlaceholders = true },
         },
-        golangci_lint_ls = {},
+        -- golangci_lint_ls = {},
       },
       setup = {
         gopls = function(_, _)

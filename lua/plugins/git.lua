@@ -82,4 +82,27 @@ return {
       },
     },
   },
+  {
+    'NeogitOrg/neogit',
+    event = 'VeryLazy',
+    dependencies = {
+      'nvim-lua/plenary.nvim', -- required
+      'nvim-telescope/telescope.nvim', -- optional
+      'sindrets/diffview.nvim', -- optional
+      'ibhagwan/fzf-lua', -- optional
+    },
+    config = true,
+    keys = {
+      { '<leader>gg', '<cmd>Neogit<cr>', desc = 'Git Status' },
+      { '<leader>gc', '<cmd>Neogit commit<cr>', desc = 'Git Status' },
+    },
+    init = function()
+      local Utils = require 'core.utils'
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'NeogitPushComplete',
+        group = Utils.augroup 'NeogitEvents',
+        callback = require('neogit').close,
+      })
+    end,
+  },
 }
