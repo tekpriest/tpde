@@ -96,13 +96,13 @@ return {
       { '<leader>gg', '<cmd>Neogit<cr>', desc = 'Git Status' },
       { '<leader>gc', '<cmd>Neogit commit<cr>', desc = 'Git Status' },
     },
-    init = function()
-      local Utils = require 'core.utils'
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'NeogitPushComplete',
-        group = Utils.augroup 'NeogitEvents',
-        callback = require('neogit').close,
-      })
-    end,
+    -- init = function()
+    --   local Utils = require 'core.utils'
+    --   vim.api.nvim_create_autocmd('User', {
+    --     pattern = 'NeogitPushComplete',
+    --     group = Utils.augroup 'NeogitEvents',
+    --     callback = require('neogit').close,
+    --   })
+    -- end,
   },
 }

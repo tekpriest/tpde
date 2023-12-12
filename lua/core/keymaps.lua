@@ -35,6 +35,7 @@ vim.defer_fn(function()
       ['<A-k>'] = ':m .-2<cr>==',
       ['<leader>n'] = [[<cmd>vsplit enew<cr>]],
       ['<leader>tn'] = [[<cmd>tabnew<cr>]],
+      ['<leader>tc'] = [[<cmd>tabclose<cr>]],
       ['j'] = [[mzJ`z`]],
     },
     v = {
