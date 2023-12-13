@@ -142,6 +142,7 @@ vim.o.termguicolors = true
 opt.autowrite = true
 opt.mousescroll = 'ver:25,hor:6'
 opt.writebackup = false
+opt.confirm = false
 vim.cmd [[filetype plugin indent on]]
 
 -- table.insert(opt.diffopt, 'vertical')

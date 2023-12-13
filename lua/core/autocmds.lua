@@ -62,12 +62,12 @@ vim.defer_fn(function()
   })
 
   -- resize splits if window got resized
-  -- autocmd({ 'VimResized' }, {
-  --   group = Utils.augroup 'resize_splits',
-  --   callback = function()
-  --     vim.cmd 'tabdo wincmd ='
-  --   end,
-  -- })
+  autocmd({ 'VimResized' }, {
+    group = Utils.augroup 'resize_splits',
+    callback = function()
+      vim.cmd 'tabdo wincmd ='
+    end,
+  })
 
   -- set .mdx and .md files to markdown
   autocmd('FileType', {
