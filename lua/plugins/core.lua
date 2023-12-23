@@ -35,56 +35,56 @@ return {
       },
     },
   },
-  {
-    '0oAstro/silicon.lua',
-    opts = {
-      font = 'Dank Mono',
-      lineNumber = false,
-      output = '/Users/tp/Pictures/snips/SILICON_${year}-${month}-${date}_${time}.png',
-      gobble = true,
-      shadowBlurRadius = 20,
-    },
-    keys = {
-      {
-        '<space>ss',
-        function()
-          require('silicon').visualise_api {}
-        end,
-        mode = { 'v', 'x' },
-        desc = 'Take a silicon code snippet',
-      },
-      {
-        '<space>sb',
-        function()
-          require('silicon').visualise_api { show_buf = true }
-        end,
-        mode = { 'n' },
-        desc = 'Take a silicon code snippet into the clipboard',
-      },
-    },
-    dependencies = { 'nvim-lua/plenary.nvim' },
-  },
-  {
-    '0oAstro/dim.lua',
-    event = 'LspAttach',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'neovim/nvim-lspconfig' },
-    opts = {
-      disable_lsp_decorations = true,
-    },
-  },
-  {
-    'Shatur/neovim-session-manager',
-    dependencies = {
-      { 'nvim-lua/plenary.nvim' },
-    },
-    keys = {
-      {
-        '<leader>ql',
-        '<cmd>SessionManager load_current_dir_session<cr>',
-        desc = 'retore last session',
-      },
-    },
-  },
+  -- {
+  --   '0oAstro/silicon.lua',
+  --   opts = {
+  --     font = 'Dank Mono',
+  --     lineNumber = false,
+  --     output = '/Users/tp/Pictures/snips/SILICON_${year}-${month}-${date}_${time}.png',
+  --     gobble = true,
+  --     shadowBlurRadius = 20,
+  --   },
+  --   keys = {
+  --     {
+  --       '<space>ss',
+  --       function()
+  --         require('silicon').visualise_api {}
+  --       end,
+  --       mode = { 'v', 'x' },
+  --       desc = 'Take a silicon code snippet',
+  --     },
+  --     {
+  --       '<space>sb',
+  --       function()
+  --         require('silicon').visualise_api { show_buf = true }
+  --       end,
+  --       mode = { 'n' },
+  --       desc = 'Take a silicon code snippet into the clipboard',
+  --     },
+  --   },
+  --   dependencies = { 'nvim-lua/plenary.nvim' },
+  -- },
+  -- {
+  --   '0oAstro/dim.lua',
+  --   event = 'LspAttach',
+  --   dependencies = { 'nvim-treesitter/nvim-treesitter', 'neovim/nvim-lspconfig' },
+  --   opts = {
+  --     disable_lsp_decorations = true,
+  --   },
+  -- },
+  -- {
+  --   'Shatur/neovim-session-manager',
+  --   dependencies = {
+  --     { 'nvim-lua/plenary.nvim' },
+  --   },
+  --   keys = {
+  --     {
+  --       '<leader>ql',
+  --       '<cmd>SessionManager load_current_dir_session<cr>',
+  --       desc = 'retore last session',
+  --     },
+  --   },
+  -- },
   {
     'nvim-tree/nvim-web-devicons',
     event = 'VeryLazy',

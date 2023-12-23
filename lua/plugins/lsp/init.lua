@@ -168,12 +168,6 @@ return {
     end,
   },
   {
-    'j-hui/fidget.nvim',
-    event = 'LspAttach',
-    opts = {},
-    config = true,
-  },
-  {
     'mfussenegger/nvim-lint',
     event = 'LspAttach',
     opts = {

@@ -7,21 +7,16 @@ return {
   },
   {
     'akinsho/flutter-tools.nvim',
-    ft = { "dart" },
+    ft = { 'dart' },
     opts = function()
-      local line = { '🭽', '▔', '🭾', '▕', '🭿', '▁', '🭼', '▏' }
       return {
-        ui = { border = line },
         debugger = {
           enabled = false,
           run_via_dap = false,
           exception_breakpoints = {},
         },
         outline = { auto_open = false },
-        decorations = {
-          statusline = { device = true, app_version = true },
-        },
-        widget_guides = { enabled = true, debug = false },
+        widget_guides = { enabled = false, debug = false },
         dev_log = { enabled = true, open_cmd = 'tabedit' },
         lsp = {
           color = {
@@ -30,7 +25,7 @@ return {
             virtual_text = false,
           },
           settings = {
-            showTodos = false,
+            showTodos = true,
             renameFilesWithClasses = 'always',
             updateImportsOnRename = true,
             completeFunctionCalls = true,
@@ -44,4 +39,3 @@ return {
     },
   },
 }
-
