@@ -110,7 +110,7 @@ g.markdown_fenced_languages = {
 }
 opt.pumblend = 10
 opt.winblend = 10
-opt.cmdheight = 0
+opt.cmdheight = 1
 opt.smartcase = true
 opt.ignorecase = true
 opt.autoindent = true

@@ -40,6 +40,7 @@ return {
         javascript = { 'prettierd' },
         typescriptreact = { 'prettierd' },
         javascriptreact = { 'prettierd' },
+        html = { 'prettierd' },
         elixir = { 'mix' },
         dart = { 'dart_format' },
         yaml = { 'prettierd' },

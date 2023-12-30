@@ -96,6 +96,7 @@ return {
       { '<leader>gg', '<cmd>Neogit<cr>', desc = 'Git Status' },
       { '<leader>gc', '<cmd>Neogit commit<cr>', desc = 'Git Status' },
     },
+    -- opts = { }
     -- init = function()
     --   local Utils = require 'core.utils'
     --   vim.api.nvim_create_autocmd('User', {

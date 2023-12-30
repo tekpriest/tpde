@@ -15,4 +15,7 @@ return {
       desc = 'fuzzy search code',
     },
   },
+  {
+    ''
+  }
 }

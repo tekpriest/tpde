@@ -30,7 +30,7 @@ return {
         desc = 'next todo comment',
       },
       {
-        '[t]',
+        '[t',
         function()
           require('todo-comments').jump_prev()
         end,

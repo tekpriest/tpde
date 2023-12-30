@@ -46,7 +46,7 @@ return {
           node_decremental = 'grm', -- decrement to the previous node
         },
       },
-      matchup = { enable = true },
+      matchup = { enable = false },
       query_linter = { enable = true },
     },
     config = function(_, opts)

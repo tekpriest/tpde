@@ -69,6 +69,7 @@ M.cmp_kinds = {
   Event = '  ',
   Operator = '  ',
   TypeParameter = '  ',
+  Codeium = '',
 }
 
 M.add_buffer_autocmd = function(augroup, bufnr, autocmds)

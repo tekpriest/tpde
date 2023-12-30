@@ -11,13 +11,15 @@ return {
         functionStyle = { italic = true },
         typeStyle = { italic = true },
         transparent = true, -- do not set background color
-        terminalColors = true, -- define vim.g.terminal_color_{0,17}
+        dimInactive = false, -- dim inactive window
+        statementStyle = { bold = true },
         theme = 'dragon', -- Load "wave" theme when 'background' option is not set
         colors = {
           theme = {
             all = {
               ui = {
                 bg_gutter = 'none',
+                statusline = 'none',
               },
             },
           },
@@ -28,6 +30,8 @@ return {
             NormalFloat = { bg = 'none' },
             FloatBorder = { bg = 'none' },
             FloatTitle = { bg = 'none' },
+            -- StatusLine = { bg = 'none', fg = 'none' },
+            -- StatusLineNC = { bg = 'none', fg = 'none' },
             NormalDark = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m3 },
             LazyNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
             MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },

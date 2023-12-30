@@ -104,6 +104,7 @@ return {
           { name = 'buffer' },
           { name = 'nvim_lua' },
           { name = 'nvim_lsp' },
+          { name = 'codeium' },
         },
       }
     end,

@@ -134,9 +134,33 @@ vim.defer_fn(function()
     command = 'startinsert | 1',
   })
 
-  autocmd({ 'BufNewFile','BufReadPost' }, {
+  autocmd({ 'BufNewFile', 'BufReadPost' }, {
     group = Utils.augroup 'set_eex_mjml',
     pattern = { '*.mjml' },
     command = [[set filetype=html]],
   })
+
+  -- autocmd('BufReadPost', {
+  --   group = Utils.augroup 'set_maximize_buffer_keys',
+  --   pattern = '*',
+  --   callback = function()
+  --     local is_true = vim.fn.winwidth(0) == vim.fn.winwidth '%'
+  --       and vim.fn.winheight(0) == vim.fn.winheight '%'
+  --     if is_true then
+  --       vim.api.nvim_set_keymap(
+  --         'n',
+  --         '<C-w>z',
+  --         [[<cmd>wincmd =<cr>]],
+  --         { silent = true, noremap = true }
+  --       )
+  --     else
+  --       vim.api.nvim_set_keymap(
+  --         'n',
+  --         '<C-w>z',
+  --         [[<cmd>wincmd _  | wincmd |<cr>]],
+  --         { silent = true, noremap = true }
+  --       )
+  --     end
+  --   end,
+  -- })
 end, 10)
