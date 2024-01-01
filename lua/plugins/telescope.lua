@@ -5,13 +5,6 @@ return {
   opts = {
     defaults = {
       mappings = {
-        -- i = {
-        --   ['<CR>'] = function(...)
-        --     local actions = require 'telescope.actions'
-        --     require('telescope.actions').select_default() + require('telescope.actions').center()
-        --     -- actions.select_default() + actions.center()
-        --   end,
-        -- },
         n = {
           ['q'] = function(...)
             require('telescope.actions').close(...)
@@ -25,6 +18,7 @@ return {
     telescope.setup(opts)
     telescope.load_extension 'fzf'
     telescope.load_extension 'harpoon'
+    telescope.load_extension 'git_worktree'
   end,
   keys = {
     { '<leader><space>', '<cmd>Telescope find_files<cr>', desc = 'find files' },

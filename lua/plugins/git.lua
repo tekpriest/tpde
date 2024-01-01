@@ -96,14 +96,20 @@ return {
       { '<leader>gg', '<cmd>Neogit<cr>', desc = 'Git Status' },
       { '<leader>gc', '<cmd>Neogit commit<cr>', desc = 'Git Status' },
     },
-    -- opts = { }
-    -- init = function()
-    --   local Utils = require 'core.utils'
-    --   vim.api.nvim_create_autocmd('User', {
-    --     pattern = 'NeogitPushComplete',
-    --     group = Utils.augroup 'NeogitEvents',
-    --     callback = require('neogit').close,
-    --   })
-    -- end,
+  },
+  {
+    'ThePrimeagen/git-worktree.nvim',
+    keys = {
+      {
+        '<leader>fp',
+        [[<CMD>lua require('telescope').extensions.git_worktree.git_worktrees()<CR>]],
+        desc = 'browse git work trees',
+      },
+      {
+        '<leader>fc',
+        [[<CMD>lua require('telescope').extensions.git_worktree.create_git_worktree()<CR>]],
+        desc = 'create git work trees',
+      },
+    },
   },
 }
