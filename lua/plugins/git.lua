@@ -84,7 +84,6 @@ return {
   },
   {
     'NeogitOrg/neogit',
-    event = 'VeryLazy',
     dependencies = {
       'nvim-lua/plenary.nvim', -- required
       'nvim-telescope/telescope.nvim', -- optional
@@ -99,6 +98,9 @@ return {
   },
   {
     'ThePrimeagen/git-worktree.nvim',
+    opts = {
+      change_directory_command = '',
+    },
     keys = {
       {
         '<leader>fp',

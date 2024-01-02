@@ -3,12 +3,35 @@ return {
   branch = 'v3.x',
   dependencies = {
     'MunifTanjim/nui.nvim',
+    'nvim-lua/plenary.nvim',
+    'nvim-tree/nvim-web-devicons',
   },
   cmd = { 'NeoTreeToggle', 'NeoTreeFocus', 'Neotree' },
   init = function()
     vim.g.neo_tree_remove_legacy_commands = true
   end,
   opts = {
+    commands = {
+      system_open = function(state)
+        local node = state.tree:get_node()
+        local path = node:get_id()
+        -- macOs: open file in default application in the background.
+        vim.fn.jobstart({ 'xdg-open', '-g', path }, { detach = true })
+        -- Linux: open file in default application
+        -- vim.fn.jobstart({ 'xdg-open', path }, { detach = true })
+      end,
+    },
+    event_handlers = {
+      {
+        event = 'file_opened',
+        handler = function(_)
+          -- auto close
+          -- vimc.cmd("Neotree close")
+          -- OR
+          require('neo-tree.command').execute { action = 'close' }
+        end,
+      },
+    },
     auto_clean_after_session_restore = true,
     filesystem = {
       hide_dotfiles = false,
@@ -18,10 +41,24 @@ return {
         enable = true,
       },
       hijack_netrw_behavior = 'open_current',
+      mappings = {
+        ['o'] = 'system_open',
+      },
     },
     window = {
       position = 'right',
       width = 30,
+      mappings = {
+        ['e'] = function()
+          vim.api.nvim_exec('Neotree focus filesystem right', true)
+        end,
+        ['b'] = function()
+          vim.api.nvim_exec('Neotree focus buffers right', true)
+        end,
+        ['g'] = function()
+          vim.api.nvim_exec('Neotree focus git_status right', true)
+        end,
+      },
     },
     default_component_configs = {
       icon = {
@@ -34,6 +71,9 @@ return {
           unstaged = '󰄱',
         },
       },
+    },
+    source_selector = {
+      statusline = true,
     },
   },
   keys = {
